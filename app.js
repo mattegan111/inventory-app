@@ -11,7 +11,7 @@ var secrets = require('./secrets.js');
 var app = express();
 
 //Set up mongoose connection
-var mongoDB = `mongodb+srv://user_01:${secrets.MongoPassword}@cluster0.6izrm.mongodb.net/database_01?retryWrites=true&w=majority`;
+var mongoDB = `mongodb+srv://user_01:${secrets}@cluster0.6izrm.mongodb.net/database_01?retryWrites=true&w=majority`;
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));

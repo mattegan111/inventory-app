@@ -4,9 +4,9 @@ var Schema = mongoose.Schema;
 
 const categorySchema = new Schema({
     name: {type: String, required: true},
-    parent_category: {type: Schema.Types.ObjectId, ref: 'Category'},
-    child_categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
-    full_url: {type: String}
+    // parent_category: {type: Schema.Types.ObjectId, ref: 'Category'},
+    // child_categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
+    // full_url: {type: String}
 });
 
 // Virtual for Category URL

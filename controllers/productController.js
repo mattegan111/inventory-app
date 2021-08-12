@@ -11,8 +11,8 @@ exports.index = function(req, res) {
         product_type_count: function(callback) {
             Product.countDocuments({}, callback);
         },
-        product_units_count: function(callback) {
-            Product.quantity({}, callback);
+        products: function(callback) {
+            Product.find({}).exec(callback);
         },
         manufacturer_count: function(callback) {
             Manufacturer.countDocuments({}, callback);
@@ -21,7 +21,16 @@ exports.index = function(req, res) {
             Category.countDocuments({}, callback)
         }
     }, function(err, results) {
-        res.render('index', {title: 'Inventory App Home', error: err, data: results});
+        let units = 0;
+        results.products.forEach(product => {
+            units += product.quantity;
+        });
+        results.product_units_count = units;
+        res.render('index', {
+            title: 'Inventory App Home', 
+            error: err, 
+            data: results 
+        });
     });
 }
 

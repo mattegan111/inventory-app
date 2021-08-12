@@ -7,9 +7,7 @@ var manufacturer_controller = require('../controllers/manufacturerController');
 var product_controller = require('../controllers/productController');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.get('/', product_controller.index);
 
 // CATEGORY ROUTES
 router.get('/category/create', category_controller.category_create_get);
