@@ -1,8 +1,33 @@
 var Category = require('../models/category');
+var Product = require('../models/product');
+var async = require('async');
 
 // Display list of all Categories.
-exports.category_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: Category list');
+exports.category_list = function(req, res, next) {
+
+    async.parallel({
+        category_list: function(callback){
+            Category.find({})    
+            .exec(callback);
+        },
+        product_list: function(callback){
+            Product.find({})
+            .exec(callback);
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+
+        results.category_list.forEach(category => {
+            category.products = [];
+            results.product_list.forEach(product => {
+                if (product.category[0] == category._id.toString()) {
+                    category.products.push(product);
+                };
+            });
+        });
+
+        res.render('category_list', {title: 'All Categories', data: results});
+    })
 };
 
 // Display detail page for a specific Category.

@@ -1,0 +1,22 @@
+extends layout 
+
+block content
+  h1= title 
+
+  table(style='width:100%', border='1')
+    tr
+      th Id 
+      th Name 
+      th Products 
+    each manufacturer in data.manufacturer_list
+      tr
+        th #{manufacturer._id} 
+        th #{manufacturer.name} 
+        th 
+          each product in manufacturer.products
+            p #{product.name}
+            p works
+
+  
+      
+      

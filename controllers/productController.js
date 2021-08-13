@@ -32,7 +32,7 @@ exports.index = function(req, res) {
             data: results 
         });
     });
-}
+};
 
 // Display list of all products.
 exports.product_list = function(req, res) {

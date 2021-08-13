@@ -1,8 +1,34 @@
 var Manufacturer = require('../models/manufacturer');
+var Product = require('../models/product');
+var async = require('async');
 
 // Display list of all manufacturers.
-exports.manufacturer_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: Manufacturer list');
+exports.manufacturer_list = function(req, res, next) {
+    
+    async.parallel({
+        manufacturer_list: function(callback){
+            Manufacturer.find({})    
+            .exec(callback);
+        },
+        product_list: function(callback){
+            Product.find({})
+            .exec(callback);
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+
+        results.manufacturer_list.forEach(manufacturer => {
+            manufacturer.products = [];
+            results.product_list.forEach(product => {
+                console.log('p ' + product.manufacturer[0]);
+                if (product.manufacturer[0] == manufacturer._id.toString()) {
+                    manufacturer.products.push(product);
+                };
+            });
+        });
+
+        res.render('manufacturer_list', {title: 'All Manufacturers', data: results});
+    })
 };
 
 // Display detail page for a specific Manufacturer.
