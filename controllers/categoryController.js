@@ -37,7 +37,8 @@ exports.category_view_specific = function(req, res, next) {
     async.parallel({
         category: function(callback){
             Category.findById(req.params.id)
-            .populate('child_categories')    
+            .populate('child_categories')
+            .populate('parent_categories')    
             .exec(callback);
         },
         product_list: function(callback){
@@ -47,7 +48,7 @@ exports.category_view_specific = function(req, res, next) {
     }, function(err, results) {
         if (err) { return next(err); }
 
-        //get products for both category and child categories
+        // Get products for both category and child categories
         results.products = [];
         results.product_list.forEach(product => {
             if (product.category[0] == results.category._id.toString()) {
@@ -60,7 +61,6 @@ exports.category_view_specific = function(req, res, next) {
                 };
             })
         });
-
 
         res.render('category_view_specific', {title: 'View By Category', data: results});
     });
