@@ -3,11 +3,11 @@ var Product = require('../models/product');
 var async = require('async');
 
 // Display list of all manufacturers.
-exports.manufacturer_list = function(req, res, next) {
+exports.manufacturer_view_all = function(req, res, next) {
     
     async.parallel({
         manufacturer_list: function(callback){
-            Manufacturer.find({})    
+            Manufacturer.find({})
             .exec(callback);
         },
         product_list: function(callback){
@@ -20,15 +20,40 @@ exports.manufacturer_list = function(req, res, next) {
         results.manufacturer_list.forEach(manufacturer => {
             manufacturer.products = [];
             results.product_list.forEach(product => {
-                console.log('p ' + product.manufacturer[0]);
                 if (product.manufacturer[0] == manufacturer._id.toString()) {
                     manufacturer.products.push(product);
                 };
             });
         });
 
-        res.render('manufacturer_list', {title: 'All Manufacturers', data: results});
+        res.render('manufacturer_view_all', {title: 'View By Manufacturers', data: results});
     })
+};
+
+// Display Products by specific Manufacturer
+exports.manufacturer_view_specific = function(req, res, next) {
+
+    async.parallel({
+        manufacturer: function(callback){
+            Manufacturer.findById(req.params.id)
+            .exec(callback);
+        },
+        product_list: function(callback){
+            Product.find({})
+            .exec(callback);
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+
+        results.manufacturer.products = [];
+        results.product_list.forEach(product => {
+            if (product.manufacturer[0] == results.manufacturer._id.toString()) {
+                results.manufacturer.products.push(product);
+            };
+        });
+
+        res.render('manufacturer_view_specific', {title: 'View By Manufacturer', data: results});
+    });
 };
 
 // Display detail page for a specific Manufacturer.

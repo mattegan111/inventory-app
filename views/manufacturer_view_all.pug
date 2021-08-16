@@ -10,12 +10,15 @@ block content
       th Products 
     each manufacturer in data.manufacturer_list
       tr
-        th #{manufacturer._id} 
-        th #{manufacturer.name} 
-        th 
+        td 
+          a(href="#{manufacturer._id}")
+            p #{manufacturer._id} 
+        td 
+          a(href=`/manufacturers/${manufacturer._id}`)
+            p #{manufacturer.name} 
+        td 
           each product in manufacturer.products
             p #{product.name}
-            p works
 
   
       

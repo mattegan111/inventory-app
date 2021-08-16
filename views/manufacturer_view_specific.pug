@@ -1,0 +1,34 @@
+extends layout 
+
+block content
+  h1= title 
+
+  table(style='width:100%', border='1')
+    tr
+      th Id 
+      th Name 
+      tr
+        td 
+          a(href="#{data.manufacturer._id}")
+            p #{data.manufacturer._id} 
+        td 
+          a(href=`/manufacturers/${data.manufacturer._id}`)
+            p #{data.manufacturer.name} 
+  table(style='width:100%', border='1')
+    h2= 'Products'
+    tr 
+      th Id 
+      th Name 
+      th Category 
+    each product in data.manufacturer.products 
+      tr 
+        td 
+          p #{product._id}
+        td 
+          p #{product.name}
+        td 
+          p #{product.category}
+
+  
+      
+      
