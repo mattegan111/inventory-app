@@ -20,13 +20,13 @@ exports.manufacturer_view_all = function(req, res, next) {
         results.manufacturer_list.forEach(manufacturer => {
             manufacturer.products = [];
             results.product_list.forEach(product => {
-                if (product.manufacturer[0] == manufacturer._id.toString()) {
+                if (product.manufacturer.toString() == manufacturer._id.toString()) {
                     manufacturer.products.push(product);
                 };
             });
         });
 
-        res.render('manufacturer_view_all', {title: 'View By Manufacturers', data: results});
+        res.render('manufacturer_view_all', {title: 'View By Manufacturer', data: results});
     })
 };
 
@@ -47,7 +47,7 @@ exports.manufacturer_view_specific = function(req, res, next) {
 
         results.manufacturer.products = [];
         results.product_list.forEach(product => {
-            if (product.manufacturer[0] == results.manufacturer._id.toString()) {
+            if (product.manufacturer.toString() == results.manufacturer._id.toString()) {
                 results.manufacturer.products.push(product);
             };
         });
