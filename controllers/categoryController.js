@@ -51,16 +51,23 @@ exports.category_view_specific = function(req, res, next) {
         // Get products for both category and child categories
         results.products = [];
         results.product_list.forEach(product => {
-            if (product.category[0] == results.category._id.toString()) {
+            console.log(typeof product.category.toString());
+            console.log(`"${product.category.toString()}"`);
+            console.log(typeof results.category._id.toString());
+            console.log(`"${results.category._id.toString()}"`);
+            console.log(product.category.toString() == results.category._id.toString());
+
+            if (product.category.toString() == results.category._id.toString()) {
                 results.products.push(product);
             };
 
             results.category.child_categories.forEach(category => {
-                if (product.category[0] == category._id.toString()) {
+                if (product.category.toString() == category._id.toString()) {
                     results.products.push(product);
                 };
             })
         });
+
 
         res.render('category_view_specific', {title: 'View By Category', data: results});
     });
