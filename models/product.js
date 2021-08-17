@@ -8,8 +8,8 @@ var ProductSchema = new Schema(
     description: {type: String, required: true, minLength: 1, maxLength: 500},
     serial: {type: String, required: true, minLength: 1, maxLength: 100},
     price_in_cents: {type: String, required: true, minLength: 1, maxLength: 10},
-    manufacturer: [{type: Schema.Types.ObjectId, ref: 'Manufacturer'}],
-    category: [{type: Schema.Types.ObjectId, ref: 'Category'}],
+    manufacturer: {type: Schema.Types.ObjectId, ref: 'Manufacturer', required: true},
+    category: {type: Schema.Types.ObjectId, ref: 'Category', required: true},
     quantity: {type: Number, required: true},
   }
 );

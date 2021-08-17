@@ -1,0 +1,24 @@
+extends layout 
+
+block content
+  h1= title 
+  
+  h2= 'Products'
+  table(style='width:100%', border='1')
+    tr 
+      th Id 
+      th Name 
+      th Category
+      th Manufacturer 
+    each product in data.product_list 
+      tr 
+        td 
+          p #{product._id}
+        td 
+          p #{product.name}
+        td 
+          a(href=`/categories/${product.category._id}`)
+            p #{product.category.name}
+        td 
+          a(href=`/categories/${product.manufacturer._id}`)
+            p #{product.manufacturer.name}
