@@ -3,6 +3,7 @@ extends layout
 block content
   h1= title 
 
+  h2= 'Manufacturer'
   table(style='width:100%', border='1')
     tr
       th Id 
@@ -14,8 +15,8 @@ block content
         td 
           a(href=`/manufacturers/${data.manufacturer._id}`)
             p #{data.manufacturer.name} 
+  h2= 'Products'
   table(style='width:100%', border='1')
-    h2= 'Products'
     tr 
       th Id 
       th Name 
