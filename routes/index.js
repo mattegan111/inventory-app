@@ -18,6 +18,9 @@ router.get('/category/:id/update', category_controller.category_update_get);
 router.post('/category/:id/update', category_controller.category_update_post);
 router.get('/category/:id', category_controller.category_detail);
 
+router.get('/manage-categories', category_controller.category_manage_all_get);
+router.get('/category/edit/:id', category_controller.category_edit_get);
+
 router.get('/categories', category_controller.category_view_all);
 router.get('/categories/:id', category_controller.category_view_specific);
 
@@ -31,6 +34,9 @@ router.get('/manufacturer/:id/update', manufacturer_controller.manufacturer_upda
 router.post('/manufacturer/:id/update', manufacturer_controller.manufacturer_update_post);
 router.get('/manufacturer/:id', manufacturer_controller.manufacturer_detail);
 
+router.get('/manage-manufacturers', manufacturer_controller.manufacturer_manage_all_get);
+router.get('/manufacturer/edit/:id', manufacturer_controller.manufacturer_edit_get);
+
 router.get('/manufacturers', manufacturer_controller.manufacturer_view_all);
 router.get('/manufacturers/:id', manufacturer_controller.manufacturer_view_specific);
 
@@ -43,6 +49,9 @@ router.post('/product/:id/delete', product_controller.product_delete_post);
 router.get('/product/:id/update', product_controller.product_update_get);
 router.post('/product/:id/update', product_controller.product_update_post);
 router.get('/product/:id', product_controller.product_detail);
+
+router.get('/manage-products', product_controller.product_manage_all_get);
+router.get('/product/edit/:id', product_controller.product_edit_get);
 
 router.get('/products', product_controller.product_view_all);
 

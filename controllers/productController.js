@@ -51,6 +51,33 @@ exports.product_view_all = function(req, res) {
     });
 };
 
+// Display manage all page for Products.
+exports.product_manage_all_get = function(req, res, next) {
+    
+    async.series({
+        product_list: function(callback){
+            Product.find({})
+            .exec(callback);
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+        res.render('product_manage_all_get', {title: 'Manage Product', data: results});
+    });
+};
+
+// Display manage page for specific Manufacturer.
+exports.product_edit_get = function(req, res) {
+    async.series({
+        product: function(callback){
+            Product.findById(req.params.id)
+            .exec(callback);
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+        res.render('product_edit_get', {title: 'Edit Product', product: results.product});
+    });
+};
+
 // Display detail page for a specific Product.
 exports.product_detail = function(req, res) {
     res.send('NOT IMPLEMENTED: Product detail: ' + req.params.id);

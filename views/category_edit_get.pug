@@ -1,0 +1,35 @@
+extends layout 
+
+block content
+  h1= title 
+  h2= data.category.name
+
+  form(action='', method='POST')
+    p 
+      | name:
+      br
+      input(type='text' name='name', value=`${data.category.name}`)
+      br
+      | parent categories:
+      //- form(action="") 
+      //-   select(name='category-select')
+      //-     each category in data.category_list 
+      //-       if !category.parent_categories[0]
+      //-         option(value='${category.name}') #{category.name}
+
+
+
+
+
+
+      if data.category.parent_categories[0] 
+        | parent categories:
+        each parent_category in data.category.parent_categories
+          br
+          input(type='text' name='name', value=`${parent_category}`)
+      else 
+        | parent categories:
+        br
+
+
+    input(type='submit', value='Submit')

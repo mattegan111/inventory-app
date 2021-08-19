@@ -2,7 +2,7 @@ var Manufacturer = require('../models/manufacturer');
 var Product = require('../models/product');
 var async = require('async');
 
-// Display list of all manufacturers.
+// Display list of all Manufacturers.
 exports.manufacturer_view_all = function(req, res, next) {
     
     async.parallel({
@@ -30,7 +30,7 @@ exports.manufacturer_view_all = function(req, res, next) {
     })
 };
 
-// Display Products by specific Manufacturer
+// Display Products by specific Manufacturer.
 exports.manufacturer_view_specific = function(req, res, next) {
 
     async.parallel({
@@ -53,6 +53,33 @@ exports.manufacturer_view_specific = function(req, res, next) {
         });
 
         res.render('manufacturer_view_specific', {title: 'View By Manufacturer', data: results});
+    });
+};
+
+// Display manage all page for Manufacturers.
+exports.manufacturer_manage_all_get = function(req, res, next) {
+    
+    async.series({
+        manufacturer_list: function(callback){
+            Manufacturer.find({})
+            .exec(callback);
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+        res.render('manufacturer_manage_all_get', {title: 'Manage Manufacturers', data: results});
+    });
+};
+
+// Display manage page for specific Manufacturer.
+exports.manufacturer_edit_get = function(req, res) {
+    async.series({
+        manufacturer: function(callback){
+            Manufacturer.findById(req.params.id)
+            .exec(callback);
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+        res.render('manufacturer_edit_get', {title: 'Edit Manufacturer', manufacturer: results.manufacturer});
     });
 };
 

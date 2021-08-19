@@ -1,0 +1,21 @@
+extends layout 
+
+block content
+  h1= title 
+
+  h2= 'Categories'
+  table(style='width:100%', border='1')
+    tr
+      th Id 
+      th Name 
+    each category in category_list
+      tr
+        td 
+          a(href="#{category._id}")
+            p #{category._id} 
+        td 
+          a(href=`/categories/${category._id}`)
+            p #{category.name} 
+        td 
+          a(href=`/category/edit/${category._id}`)
+            button(type="button") Edit 

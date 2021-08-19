@@ -51,11 +51,6 @@ exports.category_view_specific = function(req, res, next) {
         // Get products for both category and child categories
         results.products = [];
         results.product_list.forEach(product => {
-            console.log(typeof product.category.toString());
-            console.log(`"${product.category.toString()}"`);
-            console.log(typeof results.category._id.toString());
-            console.log(`"${results.category._id.toString()}"`);
-            console.log(product.category.toString() == results.category._id.toString());
 
             if (product.category.toString() == results.category._id.toString()) {
                 results.products.push(product);
@@ -70,6 +65,95 @@ exports.category_view_specific = function(req, res, next) {
 
 
         res.render('category_view_specific', {title: 'View By Category', data: results});
+    });
+};
+
+// Display manage all page for Categories.
+exports.category_manage_all_get = function(req, res) {
+
+    async.series({
+        category_list: function(callback){
+            Category.find({})
+            .exec(callback);
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+        res.render('category_manage_all_get', {title: 'Manage Categories', category_list: results.category_list});
+    });
+};
+
+// Display manage page for specific Category.
+exports.category_edit_get = function(req, res, next) {
+    async.series({
+        category: function(callback){
+            Category.findById(req.params.id)
+            .exec(callback);
+        },
+        category_list: function(callback){
+            Category.find({})
+            .exec(callback);
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+
+        function getCategoryTree() {
+            let output = [];
+
+            let toAdd = [];
+            let toContinue = [];
+            let bufferArray = [];
+
+            results.category_list.forEach(category => {
+                if(!category.parent_categories[0]){
+                    toAdd.push(category);
+                    category.child_categories.forEach(child_category => {
+                        toContinue.push(child_category);
+
+                    });
+                }
+            });
+            output.push(toAdd);
+            toAdd = [];
+
+            while(true) {
+                // Populate toContinue with full objects
+                toContinue.forEach(categoryId => {
+                    results.category_list.forEach(categoryObject => {
+                        if (categoryId.toString() == categoryObject._id.toString()){
+                            bufferArray.push(categoryObject);
+                        };
+                    });
+
+                });
+                toContinue = bufferArray;
+                bufferArray = [];
+
+                // Push another array of categories to output
+                toContinue.forEach(category => {
+                    toAdd.push(category);
+                    if(category.child_categories.length > 0) {
+                        category.child_categories.forEach(child_category => {
+                            bufferArray.push(child_category);
+                        });
+                    };
+                });
+                toContinue = bufferArray;
+                bufferArray = [];
+                output.push(toAdd);
+                toAdd = [];
+
+                if (toContinue.length == 0) {
+                    break;
+                };
+            };
+
+            return output;
+        };
+
+        const categoryTree = getCategoryTree();
+        results.categoryTree = categoryTree;
+
+        res.render('category_edit_get', {title: 'Edit Category', data: results});
     });
 };
 

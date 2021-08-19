@@ -1,0 +1,21 @@
+extends layout 
+
+block content
+  h1= title 
+
+  h2= 'Manufacturer'
+  table(style='width:100%', border='1')
+    tr
+      th Id 
+      th Name 
+    each manufacturer in data.manufacturer_list
+      tr
+        td 
+          a(href="#{manufacturer._id}")
+            p #{manufacturer._id} 
+        td 
+          a(href=`/manufacturer/${manufacturer._id}`)
+            p #{manufacturer.name} 
+        td 
+          a(href=`/manufacturer/edit/${manufacturer._id}`)
+            button(type="button") Edit 

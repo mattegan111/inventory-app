@@ -1,0 +1,21 @@
+extends layout 
+
+block content
+  h1= title 
+
+  h2= 'Products'
+  table(style='width:100%', border='1')
+    tr
+      th Id 
+      th Name 
+    each product in data.product_list
+      tr
+        td 
+          a(href="#{product._id}")
+            p #{product._id} 
+        td 
+          a(href=`/products/${product._id}`)
+            p #{product.name} 
+        td 
+          a(href=`/product/edit/${product._id}`)
+            button(type="button") Edit 

@@ -1,0 +1,16 @@
+extends layout 
+
+block content
+  h1= title 
+  h2= product.name
+
+  form(action='', method='POST')
+  p 
+    | name:
+    input(type='text' name='name', value=#{category.})
+    | description:
+    | serial:
+    | price:
+    | manufacturer:
+    | category:
+    | quantity:
